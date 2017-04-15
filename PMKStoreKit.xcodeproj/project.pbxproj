@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		637B4A6C1D5D5F9B00E1BC6C /* SKRequest+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 637B4A691D5D5F9B00E1BC6C /* SKRequest+AnyPromise.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		637B4A6D1D5D5F9B00E1BC6C /* SKRequest+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 637B4A6A1D5D5F9B00E1BC6C /* SKRequest+AnyPromise.m */; };
-		637B4A6E1D5D5F9B00E1BC6C /* SKRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637B4A6B1D5D5F9B00E1BC6C /* SKRequest+Promise.swift */; };
+		637B4A6E1D5D5F9B00E1BC6C /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637B4A6B1D5D5F9B00E1BC6C /* SKProductsRequest+Promise.swift */; };
 		637B4A711D5D5FA400E1BC6C /* TestStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 637B4A6F1D5D5FA400E1BC6C /* TestStoreKit.m */; };
 		637B4A721D5D5FA400E1BC6C /* TestStoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637B4A701D5D5FA400E1BC6C /* TestStoreKit.swift */; };
 		637B4A741D5D5FC600E1BC6C /* PMKStoreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 637B4A731D5D5FC600E1BC6C /* PMKStoreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63C7FFF71D5C020D003BAE60 /* PMKStoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7FFA71D5BEE09003BAE60 /* PMKStoreKit.framework */; };
+		D3F6DBF31EA245750013E242 /* SKPayment+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F6DBF21EA245750013E242 /* SKPayment+Promise.swift */; };
+		D3F6DBF51EA246340013E242 /* SKReceiptRefreshRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F6DBF41EA246340013E242 /* SKReceiptRefreshRequest+Promise.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +31,7 @@
 /* Begin PBXFileReference section */
 		637B4A691D5D5F9B00E1BC6C /* SKRequest+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SKRequest+AnyPromise.h"; path = "Sources/SKRequest+AnyPromise.h"; sourceTree = SOURCE_ROOT; };
 		637B4A6A1D5D5F9B00E1BC6C /* SKRequest+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SKRequest+AnyPromise.m"; path = "Sources/SKRequest+AnyPromise.m"; sourceTree = SOURCE_ROOT; };
-		637B4A6B1D5D5F9B00E1BC6C /* SKRequest+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKRequest+Promise.swift"; path = "Sources/SKRequest+Promise.swift"; sourceTree = SOURCE_ROOT; };
+		637B4A6B1D5D5F9B00E1BC6C /* SKProductsRequest+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKProductsRequest+Promise.swift"; path = "Sources/SKProductsRequest+Promise.swift"; sourceTree = SOURCE_ROOT; };
 		637B4A6F1D5D5FA400E1BC6C /* TestStoreKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStoreKit.m; path = Tests/TestStoreKit.m; sourceTree = SOURCE_ROOT; };
 		637B4A701D5D5FA400E1BC6C /* TestStoreKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestStoreKit.swift; path = Tests/TestStoreKit.swift; sourceTree = SOURCE_ROOT; };
 		637B4A731D5D5FC600E1BC6C /* PMKStoreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PMKStoreKit.h; path = Sources/PMKStoreKit.h; sourceTree = SOURCE_ROOT; };
@@ -38,6 +40,8 @@
 		63C7FFF21D5C020D003BAE60 /* PMKSKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PMKSKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CCF8121D5C0C4E00503216 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		63CCF8171D5C11B500503216 /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
+		D3F6DBF21EA245750013E242 /* SKPayment+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKPayment+Promise.swift"; path = "Sources/SKPayment+Promise.swift"; sourceTree = SOURCE_ROOT; };
+		D3F6DBF41EA246340013E242 /* SKReceiptRefreshRequest+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKReceiptRefreshRequest+Promise.swift"; path = "Sources/SKReceiptRefreshRequest+Promise.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +90,9 @@
 				637B4A731D5D5FC600E1BC6C /* PMKStoreKit.h */,
 				637B4A691D5D5F9B00E1BC6C /* SKRequest+AnyPromise.h */,
 				637B4A6A1D5D5F9B00E1BC6C /* SKRequest+AnyPromise.m */,
-				637B4A6B1D5D5F9B00E1BC6C /* SKRequest+Promise.swift */,
+				637B4A6B1D5D5F9B00E1BC6C /* SKProductsRequest+Promise.swift */,
+				D3F6DBF21EA245750013E242 /* SKPayment+Promise.swift */,
+				D3F6DBF41EA246340013E242 /* SKReceiptRefreshRequest+Promise.swift */,
 			);
 			name = Sources;
 			path = "PMK+UIKit";
@@ -215,8 +221,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3F6DBF51EA246340013E242 /* SKReceiptRefreshRequest+Promise.swift in Sources */,
 				637B4A6D1D5D5F9B00E1BC6C /* SKRequest+AnyPromise.m in Sources */,
-				637B4A6E1D5D5F9B00E1BC6C /* SKRequest+Promise.swift in Sources */,
+				637B4A6E1D5D5F9B00E1BC6C /* SKProductsRequest+Promise.swift in Sources */,
+				D3F6DBF31EA245750013E242 /* SKPayment+Promise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
