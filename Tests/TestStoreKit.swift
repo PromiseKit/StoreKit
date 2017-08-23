@@ -20,6 +20,8 @@ class SKProductsRequestTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
 
+#if swift(>=3.2)
+#else
     func testCancellation() {
         class MockProductsRequest: SKProductsRequest {
             override func start() {
@@ -37,4 +39,5 @@ class SKProductsRequestTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
+#endif
 }

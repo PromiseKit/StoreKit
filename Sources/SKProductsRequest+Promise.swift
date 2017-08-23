@@ -43,7 +43,10 @@ fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate {
         retainCycle = nil
     }
 
+#if swift(>=3.2)
+#else
     @objc override class func initialize() {
         NSError.registerCancelledErrorDomain(SKErrorDomain, code: SKError.Code.paymentCancelled.rawValue)
     }
+#endif
 }
