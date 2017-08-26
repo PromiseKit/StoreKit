@@ -1,7 +1,7 @@
-import StoreKit
-#if !COCOAPODS
+#if !PMKCocoaPods
 import PromiseKit
 #endif
+import StoreKit
 
 extension SKReceiptRefreshRequest {
     public func promise() -> Promise<SKReceiptRefreshRequest> {
@@ -9,8 +9,8 @@ extension SKReceiptRefreshRequest {
     }
 }
 
-fileprivate class ReceiptRefreshObserver: NSObject, SKRequestDelegate {
-    let (promise, fulfill, reject) = Promise<SKReceiptRefreshRequest>.pending()
+private class ReceiptRefreshObserver: NSObject, SKRequestDelegate {
+    let (promise, seal) = Promise<SKReceiptRefreshRequest>.pending()
     let request: SKReceiptRefreshRequest
     var retainCycle: ReceiptRefreshObserver?
     
@@ -23,13 +23,13 @@ fileprivate class ReceiptRefreshObserver: NSObject, SKRequestDelegate {
     }
     
     
-    func requestDidFinish(_ request: SKRequest) {
-        fulfill(self.request)
+    func requestDidFinish(_: SKRequest) {
+        seal.fulfill(request)
         retainCycle = nil
     }
     
-    func request(_ request: SKRequest, didFailWithError error: Error) {
-        reject(error)
+    func request(_: SKRequest, didFailWithError error: Error) {
+        seal.reject(error)
         retainCycle = nil
     }
 }

@@ -1,5 +1,5 @@
 import StoreKit
-#if !COCOAPODS
+#if !PMKCocoaPods
 import PromiseKit
 #endif
 
@@ -19,7 +19,7 @@ extension SKProductsRequest {
 
      - Returns: A promise that fulfills if the request succeeds.
     */
-    public func promise() -> Promise<SKProductsResponse> {
+    public func start(_: PMKNamespacer) -> Promise<SKProductsResponse> {
         let proxy = SKDelegate()
         delegate = proxy
         proxy.retainCycle = proxy
@@ -30,23 +30,23 @@ extension SKProductsRequest {
 
 
 fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate {
-    let (promise, fulfill, reject) = Promise<SKProductsResponse>.pending()
+    let (promise, seal) = Promise<SKProductsResponse>.pending()
     var retainCycle: SKDelegate?
 
     @objc fileprivate func request(_ request: SKRequest, didFailWithError error: Error) {
-        reject(error)
+        seal.reject(error)
         retainCycle = nil
     }
 
     @objc fileprivate func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        fulfill(response)
+        seal.fulfill(response)
         retainCycle = nil
     }
-
-#if swift(>=3.2)
-#else
-    @objc override class func initialize() {
-        NSError.registerCancelledErrorDomain(SKErrorDomain, code: SKError.Code.paymentCancelled.rawValue)
-    }
-#endif
 }
+
+// perhaps one day Apple will actually make their errors into Errors…
+//extension SKError: CancellableError {
+//    public var isCancelled: Bool {
+//        return true
+//    }
+//}
