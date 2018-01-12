@@ -5,7 +5,7 @@ This project adds promises to Apple’s StoreKit framework.
 ## CocoaPods
 
 ```ruby
-pod "PromiseKit/StoreKit" ~> 4.0
+pod "PromiseKit/StoreKit", "~> 4.0"
 ```
 
 The extensions are built into `PromiseKit.framework` thus nothing else is needed.
