@@ -27,7 +27,7 @@ fileprivate class PaymentObserver: NSObject, SKPaymentTransactionObserver {
             return
         }
         switch transaction.transactionState {
-        case .purchased:
+        case .purchased, .restored:
             queue.finishTransaction(transaction)
             fulfill(transaction)
             queue.remove(self)
