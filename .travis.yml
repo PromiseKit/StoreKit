@@ -21,9 +21,9 @@ matrix:
 cache:
   directories:
   - Carthage
+before_install:
+  - carthage bootstrap --cache-builds --no-use-binaries --platform $PLAT --verbose
 install:
-  - carthage bootstrap --cache-builds --no-use-binaries --platform $PLAT
+  - xcodebuild -scheme PMKStoreKit -quiet -destination "$DST" build-for-testing SWIFT_VERSION=$SWFT
 script:
-  - set -o pipefail
-  - xcodebuild -scheme PMKStoreKit -quiet -destination "$DST" build SWIFT_VERSION=$SWFT
-  - xcodebuild -scheme PMKStoreKit -quiet -destination "$DST" test;
+  - xcodebuild -scheme PMKStoreKit -quiet -destination "$DST" test
