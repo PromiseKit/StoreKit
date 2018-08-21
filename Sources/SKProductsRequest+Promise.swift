@@ -1,5 +1,6 @@
 import StoreKit
 #if !PMKCocoaPods
+import PMKCancel
 import PromiseKit
 #endif
 
@@ -50,3 +51,40 @@ fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate {
 //        return true
 //    }
 //}
+
+//////////////////////////////////////////////////////////// Cancellation
+
+extension SKProductsRequest {
+    /**
+     Sends the request to the Apple App Store.
+     
+     - Returns: A cancellable promise that fulfills if the request succeeds.
+     */
+    public func startCC(_: PMKNamespacer) -> CancellablePromise<SKProductsResponse> {
+        let proxy = SKDelegate()
+        delegate = proxy
+        proxy.retainCycle = proxy
+        let cp = CancellablePromise(task: SKRequestTask(self, proxy), promise: proxy.promise, resolver: proxy.seal)
+
+        start()
+        return cp
+    }
+}
+
+fileprivate class SKRequestTask: CancellableTask {
+    let request: SKRequest
+    let proxy: SKDelegate
+
+    init(_ request: SKRequest, _ proxy: SKDelegate) {
+        self.request = request
+        self.proxy = proxy
+    }
+    
+    var isCancelled = false
+    
+    func cancel() {
+        request.cancel()
+        proxy.retainCycle = nil
+        isCancelled = true
+    }
+}
