@@ -20,7 +20,7 @@ extension SKProductsRequest {
      - Returns: A promise that fulfills if the request succeeds.
     */
     public func start(_: PMKNamespacer) -> Promise<SKProductsResponse> {
-        let proxy = SKDelegate()
+        let proxy = SKDelegate(request: self)
         delegate = proxy
         proxy.retainCycle = proxy
         start()
@@ -29,9 +29,16 @@ extension SKProductsRequest {
 }
 
 
-fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate {
+fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate, CancellableTask {
     let (promise, seal) = Promise<SKProductsResponse>.pending()
+    let request: SKRequest
     var retainCycle: SKDelegate?
+
+    init(request: SKRequest) {
+        self.request = request
+        super.init()
+        promise.setCancellableTask(self, reject: seal.reject)
+    }
 
     @objc fileprivate func request(_ request: SKRequest, didFailWithError error: Error) {
         seal.reject(error)
@@ -42,6 +49,14 @@ fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate {
         seal.fulfill(response)
         retainCycle = nil
     }
+
+    var isCancelled = false
+    
+    func cancel() {
+        request.cancel()
+        retainCycle = nil
+        isCancelled = true
+    }
 }
 
 // perhaps one day Apple will actually make their errors into Errors…
@@ -50,3 +65,16 @@ fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate {
 //        return true
 //    }
 //}
+
+//////////////////////////////////////////////////////////// Cancellable wrapper
+
+extension SKProductsRequest {
+    /**
+     Sends the request to the Apple App Store.
+     
+     - Returns: A cancellable promise that fulfills if the request succeeds.
+     */
+    public func cancellableStart(_: PMKNamespacer) -> CancellablePromise<SKProductsResponse> {
+        return cancellable(start(.promise))
+    }
+}
