@@ -29,7 +29,7 @@ private class PaymentObserver: NSObject, SKPaymentTransactionObserver {
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         self.transactions += transactions.filter { $0.transactionState == .restored }
-        transactions.forEach(queue.finishTransaction)
+        transactions.filter { $0.transactionState != .purchasing }.forEach(queue.finishTransaction)
     }
 
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
