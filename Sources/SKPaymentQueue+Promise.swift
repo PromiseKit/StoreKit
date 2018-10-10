@@ -3,12 +3,12 @@ import PromiseKit
 #endif
 import StoreKit
 
-extension SKPaymentQueue {
-    public func restoreCompletedTransactions(_: PMKNamespacer) -> Promise<[SKPaymentTransaction]> {
+public extension SKPaymentQueue {
+    func restoreCompletedTransactions(_: PMKNamespacer) -> Promise<[SKPaymentTransaction]> {
         return PaymentObserver(self).promise
     }
 
-    public func restoreCompletedTransactions(_: PMKNamespacer, withApplicationUsername username: String?) -> Promise<[SKPaymentTransaction]> {
+    func restoreCompletedTransactions(_: PMKNamespacer, withApplicationUsername username: String?) -> Promise<[SKPaymentTransaction]> {
         return PaymentObserver(self, withApplicationUsername: true, userName: username).promise
     }
 }
@@ -16,8 +16,9 @@ extension SKPaymentQueue {
 private class PaymentObserver: NSObject, SKPaymentTransactionObserver {
     let (promise, seal) = Promise<[SKPaymentTransaction]>.pending()
     var retainCycle: PaymentObserver?
-    var transactions = [SKPaymentTransaction]()
+    var finishedTransactions = [SKPaymentTransaction]()
 
+    //TODO:PMK7: this is weird, just have a `String?` parameter
     init(_ paymentQueue: SKPaymentQueue, withApplicationUsername: Bool = false, userName: String? = nil) {
         super.init()
         paymentQueue.add(self)
@@ -28,25 +29,26 @@ private class PaymentObserver: NSObject, SKPaymentTransactionObserver {
     }
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        self.transactions += transactions.filter { $0.transactionState == .restored }
-        transactions.filter { $0.transactionState != .purchasing }.forEach(queue.finishTransaction)
+        for transaction in transactions where transaction.transactionState == .restored {
+            finishedTransactions.append(transaction)
+            queue.finishTransaction(transaction)
+        }
     }
 
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        finish(queue)
+        resolve(queue, nil)
     }
 
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        finish(queue, with: error)
+        resolve(queue, error)
     }
 
-    func finish(_ queue: SKPaymentQueue, with error: Error? = nil) {
+    func resolve(_ queue: SKPaymentQueue, _ error: Error?) {
         if let error = error {
             seal.reject(error)
         } else {
-            seal.fulfill(transactions)
+            seal.fulfill(finishedTransactions)
         }
-
         queue.remove(self)
         retainCycle = nil
     }
