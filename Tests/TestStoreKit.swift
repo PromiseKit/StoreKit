@@ -40,7 +40,7 @@ extension SKProductsRequestTests {
         let ex = expectation(description: "")
         
         let request = MockProductsRequest()
-        request.cancellableStart(.promise).done { _ in
+        cancellable(request.start(.promise)).done { _ in
             XCTFail()
         }.catch(policy: .allErrors) {
             $0.isCancelled ? ex.fulfill() : XCTFail()

@@ -18,6 +18,8 @@ extension SKProductsRequest {
      Sends the request to the Apple App Store.
 
      - Returns: A promise that fulfills if the request succeeds.
+     - Note: cancelling this promise will cancel the underlying task
+     - SeeAlso: [Cancellation](http://promisekit.org/docs/)
     */
     public func start(_: PMKNamespacer) -> Promise<SKProductsResponse> {
         let proxy = SKDelegate(request: self)
@@ -65,16 +67,3 @@ fileprivate class SKDelegate: NSObject, SKProductsRequestDelegate, CancellableTa
 //        return true
 //    }
 //}
-
-//////////////////////////////////////////////////////////// Cancellable wrapper
-
-extension SKProductsRequest {
-    /**
-     Sends the request to the Apple App Store.
-     
-     - Returns: A cancellable promise that fulfills if the request succeeds.
-     */
-    public func cancellableStart(_: PMKNamespacer) -> CancellablePromise<SKProductsResponse> {
-        return cancellable(start(.promise))
-    }
-}
