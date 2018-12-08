@@ -3,6 +3,7 @@ branches:
     - master
 stages:
   - lint
+  - swiftPM
   - test
 jobs:
   include:
@@ -32,7 +33,7 @@ jobs:
       env: SWIFT=3.3
       name: pod lib lint --swift-version=3.3
     - <<: *pod
-      osx_image: xcode10
+      osx_image: xcode10.1
       env: SWIFT=3.4
       name: pod lib lint --swift-version=3.4
     - <<: *pod
@@ -44,13 +45,20 @@ jobs:
       env: SWIFT=4.1
       name: pod lib lint --swift-version=4.1
     - <<: *pod
-      osx_image: xcode10
+      osx_image: xcode10.1
       env: SWIFT=4.2
       name: pod lib lint --swift-version=4.2
 
+    - stage: swiftPM
+      os: osx
+      language: objective-c
+      osx_image: xcode10.1
+      name: SwiftPM
+      script: swift build
+
     - &test
       stage: test
-      osx_image: xcode10
+      osx_image: xcode10.1
       name: macOS Tests
       env: DST='arch=x86_64' PLAT=macOS
       os: osx
